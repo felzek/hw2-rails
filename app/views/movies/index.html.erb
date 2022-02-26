@@ -6,9 +6,9 @@
 <table class="table table-striped col-md-12" id="movies">
   <thead>
     <tr>
-      %th{:class=>@movie_title_sort, :id=>"movie_title_header"}= link_to "Movie Title", movies_path(:sort_by =>'title')
+      <th class="<%= 'hilite' if session[:sort] == 'movie_title' %>"><%= link_to "Movie Title", movies_path(:sort => 'movie_title'), id: "movie_title_header" %></th>
       <th>Rating</th>
-      <th>Release Date</th>
+      <th class="<%= 'hilite' if session[:sort] == 'release_date' %>"><%= link_to "Release Date", movies_path(:sort => 'release_date'), id: "release_date_header" %></th>
       <th>More Info</th>
     </tr>
   </thead>

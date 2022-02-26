@@ -8,6 +8,16 @@ class MoviesController < ApplicationController
   
     def index
       @movies = Movie.all
+      # Store sort key in session
+      if params.key?(:sort)
+        session[:sort] = params[:sort]
+      end
+      # Sort base on title or release date
+      if session[:sort] == 'movie_title'
+        @movies = @movies.order(:title)
+      elsif session[:sort] == 'release_date'
+        @movies = @movies.order(:release_date)
+      end
     end
   
     def new
