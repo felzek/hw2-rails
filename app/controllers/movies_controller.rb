@@ -11,9 +11,7 @@ class MoviesController < ApplicationController
       @ratings = Movie.get_ratings
       @ratings_checks = @ratings
       # Store sort key in session
-      if params.key?(:sort)
-        session[:sort] = params[:sort]
-      end
+  
       # Sort base on title or release date
       if session[:sort] == 'movie_title'
         @movies = @movies.order(:title)
@@ -22,14 +20,12 @@ class MoviesController < ApplicationController
       end
       
       
-      if params.key?(:ratings)
-        session[:ratings] = params[:ratings].keys
-      end
+
       if session.key?(:ratings)
         @ratings_checks = session[:ratings]
         @movies = @movies.where(rating: @ratings_checks)
       end
-      flash.keep
+      
 
     end
   
