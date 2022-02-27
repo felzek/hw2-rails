@@ -1,19 +1,21 @@
 <!--  This file is app/views/movies/index.html.erb -->
 <h2>All Movies</h2>
 
-= form_tag movies_path, :method => :get do
+<%= form_tag  movies_path, :id => 'ratings_form', :method => :get do %>
   Include:
-  - @all_ratings.each do |rating|
-    = rating
-    = check_box_tag "ratings[#{rating}]"
-  = submit_tag 'Refresh', :class => 'btn btn-primary'
+  <%- @ratings.each do |rating| %>
+   <%= rating %>
+    <%= check_box_tag "ratings[#{rating}]", '', if @ratings_checks; @ratings_checks.include?(rating) end, :id => "ratings_#{rating}" %>
+  <% end  %>
+  <%= submit_tag 'Refresh', :class => 'btn btn-primary', :id => "ratings_submit" %>
+<% end  %>
 
 <%#  Part 2: Start here... %>
 
-<table class="table table-striped col-md-12" id="movies">
+<table style="margin-top: 2%" class="table table-striped col-md-12" id="movies">
   <thead>
     <tr>
-      <th class="<%= 'hilite' if session[:sort] == 'movie_title' %>"><%= link_to "Movie Title", movies_path(:sort => 'movie_title'), id: "movie_title_header" %></th>
+      <th class="<%= 'hilite' if session[:sort] == 'movie_title' %>"><%= link_to "Movie Title", movies_path(:sort => 'movie_title'), id: "title_header" %></th>
       <th>Rating</th>
       <th class="<%= 'hilite' if session[:sort] == 'release_date' %>"><%= link_to "Release Date", movies_path(:sort => 'release_date'), id: "release_date_header" %></th>
       <th>More Info</th>

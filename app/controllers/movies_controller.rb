@@ -8,6 +8,8 @@ class MoviesController < ApplicationController
   
     def index
       @movies = Movie.all
+      @ratings = Movie.get_ratings
+      @ratings_checks = @ratings
       # Store sort key in session
       if params.key?(:sort)
         session[:sort] = params[:sort]
@@ -18,6 +20,17 @@ class MoviesController < ApplicationController
       elsif session[:sort] == 'release_date'
         @movies = @movies.order(:release_date)
       end
+      
+      
+      if params.key?(:ratings)
+        session[:ratings] = params[:ratings].keys
+      end
+      if session.key?(:ratings)
+        @ratings_checks = session[:ratings]
+        @movies = @movies.where(rating: @ratings_checks)
+      end
+      flash.keep
+
     end
   
     def new
